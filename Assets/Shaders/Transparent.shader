@@ -10,11 +10,11 @@
 		_MainTex("MainTexture", 2D) = "white" {}
 		_MainColor("MainColor", Color) = (1,1,1,1)
 			// Rim/Fresnel
-			_RimColor("Rim Color", Color) = (1,1,1,1)
-			_RimPower("Rim Power", Range(0.1, 10)) = 5.0
-			
-				// Settings
-				[HideInInspector] _Fold("__fld", Float) = 1.0
+		_RimColor("Rim Color", Color) = (1,1,1,1)
+		_RimPower("Rim Power", Range(0.1, 10)) = 5.0
+
+			// Settings
+		[HideInInspector] _Fold("__fld", Float) = 1.0
 	}
 		SubShader
 			{
