@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Transparent boi
+  m_Name: Floor 2
   m_Shader: {fileID: 4800000, guid: 5570de49e59b609448061f25d6e21195, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -87,7 +87,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RimPower: 3.28
+    - _RimPower: 7.23
     - _ScanSpeed: -0.95
     - _ScanTiling: 2.09
     - _SmoothnessTextureChannel: 0
@@ -100,6 +100,6 @@ Material:
     - _Direction: {r: 1, g: 1, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _LightDir: {r: -1, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 0, g: 0.018041013, b: 0.11320752, a: 1}
-    - _RimColor: {r: 1, g: 0.10015011, b: 0, a: 1}
+    - _MainColor: {r: 0, g: 0, b: 0, a: 1}
+    - _RimColor: {r: 0.09433961, g: 0.09433961, b: 0.09433961, a: 1}
   m_BuildTextureStacks: []

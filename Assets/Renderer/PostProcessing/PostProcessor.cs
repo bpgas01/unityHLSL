@@ -7,7 +7,7 @@ public class PostProcessor : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        material = new Material(Shader.Find("Hidden/CRT"));
+      //  material = new Material(Shader.Find("Hidden/CRT"));
     }
 
     public void OnRenderImage(RenderTexture source, RenderTexture destination)

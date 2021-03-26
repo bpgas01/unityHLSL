@@ -1,4 +1,4 @@
-﻿Shader "Cyber/VertexOutline"
+﻿Shader "Unlit/SpecialFX/Cool Hologram"
 {
     Properties
     {
