@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        float fwd = Input.GetAxis("Vertical");
+        float fwd = 0;
         float side = Input.GetAxis("Horizontal");
         AnimatorUpdate(fwd, side, 1);
         PlayerMovement(fwd, side);
