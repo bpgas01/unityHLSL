@@ -9,9 +9,11 @@ public class EnemyController : MonoBehaviour
     {
         public string name;
         public GameObject prefab;
-        p
+        public int amount;
     }
 
+    public float coolDownTime;
+    public Transform endPoint;
     [SerializeField] List<enemy> enemies = new List<enemy>();
 
     List<GameObject> spawned = new List<GameObject>();
@@ -22,23 +24,27 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < enemies.Count; i++)
-        {
-            GameObject temp = Instantiate(enemies[i].prefab) as GameObject;
-            temp.transform.position = this.transform.position;
-            temp.name = enemies[i].name;
-            temp.SetActive(false);
-            pooled.Add(temp);
 
+        foreach (var enem in enemies)
+        {
+            for (int i = 0; i < enem.amount; i++)
+            {
+                GameObject temp = Instantiate(enem.prefab) as GameObject;
+                temp.transform.position = transform.position;
+                temp.name = enem.name;
+                temp.SetActive(false);
+                pooled.Add(temp);
+            }
         }
+
     }
 
     // Update is called once per frame
     void Update()
     {
         timer += 1 * Time.deltaTime;
-
-        if (timer >= 2)
+        
+        if (timer >= coolDownTime)
         {
             GameObject temp = pooled[0];
             temp.SetActive(true);
@@ -49,11 +55,19 @@ public class EnemyController : MonoBehaviour
            
         }
 
-        foreach(var obj in spawned)
+        if (spawned.Count > 0)
         {
-            obj.transform.position += obj.transform.forward * Time.deltaTime * 20;
+            foreach (var obj in spawned)
+            {
+                obj.transform.position += obj.transform.forward * Time.deltaTime * 20;
+            }
+
+            if (spawned[0].transform.position.z >= endPoint.position.z)
+            {
+                spawned[0].transform.position = transform.position;
+                spawned[0].SetActive(false);
+                spawned.RemoveAt(0);
+            }
         }
-
-
     }
 }
