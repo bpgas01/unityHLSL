@@ -1,9 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
+
 public class EnemyController : MonoBehaviour
 {
+    #region Data Entry Struct 
     [System.Serializable]
     struct enemy
     {
@@ -28,9 +34,11 @@ public class EnemyController : MonoBehaviour
         public bool up;
         public bool down;
 
-
+        public Enemy Enemy;
 
     }
+    #endregion
+    #region Inspector Settings
     [Header("Spawner Settings")]
     [SerializeField]
     [Tooltip("Delay (in seconds) before the next object spawn")]
@@ -53,135 +61,89 @@ public class EnemyController : MonoBehaviour
     [Tooltip("Objects for the pooler to spawn and manage")]
     List<enemy> enemies = new List<enemy>();
 
-    List<enemy> spawned = new List<enemy>();
-    List<enemy> pooled = new List<enemy>();
+    #endregion
+    List<Enemy> spawned = new List<Enemy>();
+    List<Enemy> pooled = new List<Enemy>();
+
+    List<Enemy> EnemiesObjects = new List<Enemy>();
 
     private Transform defaultPosition;
     private float timer = 0;
     // Start is called before the first frame update
 
-
-    Transform GetTransform(enemy enem)
-    {
-
-        if (enem.left)
-        {
-            return left;
-        }
-        if (enem.right)
-        {
-            return right;
-
-        }
-        if (enem.up)
-        {
-            return up;
-        }
-        if (enem.down)
-        {
-            return down;
-
-        }
-
-        return null;
-    }
-
-
-
     void Start()
     {
-      //  List<enemy> tempList = new List<enemy>();
-        foreach (var enem in enemies)
+      foreach (var enem in enemies)
         {
-            Instantiate(enem.prefab);
             for (int i = 0; i < enem.amount; i++)
             {
 
-                if (enem.left)
-                {
-                    enem.prefab.transform.position = left.position;
-                }
-                if (enem.right)
-                {
-                    enem.prefab.transform.position = right.position;
-
-                }
-                if (enem.up)
-                {
-                    enem.prefab.transform.position = up.position;
-                }
-                if (enem.down)
-                {
-                    enem.prefab.transform.position = down.position;
-
-                }
-
-                enem.prefab.name = enem.name;
-                enem.prefab.SetActive(false);
-                pooled.Add(enem);          
-            } 
+            Enemy tempEnemy = enem.Enemy;
+            GameObject gameObject = Instantiate(enem.prefab) as GameObject;
+            gameObject.SetActive(false);
+            tempEnemy.SetGameobject(gameObject);
+            tempEnemy.SetAmount(enemies.Count);
+            tempEnemy.SetName(enem.name);
+            tempEnemy.SetSpawnPosition(false,false,true);
+            pooled.Add(tempEnemy);
+            }
         }
+      
+      
     }
-    // Update is called once per frame
-    void Update()
+
+   
+
+    private void Update()
     {
         timer += 1 * Time.deltaTime;
 
         if (timer >= coolDownTime)
         {
-            enemy temp = pooled[0];
-            temp.prefab.SetActive(true);
+            Enemy temp = pooled[0];
+            temp.GetGameObject().SetActive(true);
             spawned.Add(temp);
             pooled.RemoveAt(0);
             pooled.Add(temp);
             timer = 0;
-
         }
 
-        if (spawned.Count > 0)
+
+        if(spawned.Count > 0)
         {
-            foreach (var obj in spawned)
+            foreach (var a_object in spawned)
             {
-                obj.prefab.transform.position += obj.prefab.transform.forward * Time.deltaTime * 20;
+                a_object.GetGameObject().transform.position += 
+                    a_object.GetGameObject().transform.forward 
+                    * Time.deltaTime * 15;
+                
             }
 
-            Collider[] colliders = Physics.OverlapSphere(spawned[0].prefab.transform.position, 5);
 
-            foreach (var col in colliders)
+            Collider[] colliders = Physics.OverlapSphere(spawned[0].GetGameObject().transform.position, 5);
+
+            foreach(var col in colliders)
             {
                 if (col.gameObject.CompareTag("EndPoint"))
                 {
-                    #region Check Spawn
-                    if (spawned[0].left)
-                    {
-                        spawned[0].prefab.transform.position = left.position;
-                    }
-                    if (spawned[0].right)
-                    {
-                        spawned[0].prefab.transform.position = right.position;
+                    #region Check Spawn Location
 
-                    }
-                    if (spawned[0].up)
-                    {
-                        spawned[0].prefab.transform.position = up.position;
-                    }
+                    if (spawned[0].GetSpawnPos() == "left") spawned[0].GetGameObject().transform.position = left.position;
+                    if(spawned[0].GetSpawnPos() == "right") spawned[0].GetGameObject().transform.position = right.position;
+                    if (spawned[0].GetSpawnPos() == "up") spawned[0].GetGameObject().transform.position = up.position;
+                    if (spawned[0].GetSpawnPos() == "down") spawned[0].GetGameObject().transform.position = down.position;
 
-                    if (spawned[0].down)
-                    {
-                        spawned[0].prefab.transform.position = down.position;
-
-                    }
                     #endregion
-
-                    spawned[0].prefab.SetActive(false);
+                    spawned[0].gameObject.SetActive(false);
                     spawned.RemoveAt(0);
 
                 }
             }
-
-
-
         }
+
     }
+
+
+   
 
 }

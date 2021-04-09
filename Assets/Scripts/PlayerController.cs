@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CharacterController))]
 
@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float movementSpeed = 7.5f;
     [SerializeField] float jumpSpeed = 8.0f;
     [SerializeField] float gravity = 20.0f;
+    [SerializeField] int healthAmount = 100;
   
 
     [Header("Camera Settings")]
@@ -18,6 +19,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] [Range(0, 20)] float turnSpeed = 6;
     [SerializeField] float lookXLimit = 60.0f;
 
+    [Header("UI Settings")]
+    [SerializeField]
+    [Tooltip("Text For health amount")]
+    TextMeshProUGUI healthText;
+
+    [Header("Gun Settings")]
+    [SerializeField] Gun playerGun;
 
 
     private bool canMove = true;
@@ -37,28 +45,27 @@ public class PlayerController : MonoBehaviour
     /// Update player movement
     void PlayerMovement(float x, float y)
     {
-        
-        if (controller.isGrounded)
+        if (canMove)
         {
-            Vector3 forward = transform.TransformDirection(Vector3.forward);
-            Vector3 right = transform.TransformDirection(Vector3.right);
-            float curSpeedx = movementSpeed * x;
-            float curSpeedy = movementSpeed * y;
-            movedirection = (forward * curSpeedx) + (right * curSpeedy);
-
-            if (Input.GetButton("Jump") && canMove)
+            
+            if (controller.isGrounded)
             {
-                movedirection.y = jumpSpeed;
-            }
-          
-        }
-        else
-        {
-            movedirection.y -= gravity * Time.deltaTime;
-           
-        }
-        controller.Move(movedirection * Time.deltaTime);
+                Vector3 forward = transform.TransformDirection(Vector3.forward);
+                Vector3 right = transform.TransformDirection(Vector3.right);
+                float curSpeedx = movementSpeed * x;
+                float curSpeedy = movementSpeed * y;
+                movedirection = (forward * curSpeedx) + (right * curSpeedy);
 
+               
+
+            }
+            else
+            {
+                movedirection.y -= gravity * Time.deltaTime;
+
+            }
+            controller.Move(movedirection * Time.deltaTime);
+        }
     }
 
     /// Update animator component
@@ -72,11 +79,34 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetButton("Jump"))
+        {
+            playerGun.Shoot();
 
+        }
+        Collider[] cols = Physics.OverlapSphere(transform.position, 2);
+
+        foreach (var col in cols)
+        {
+            if (col.gameObject.CompareTag("Enemy"))
+            {
+                healthAmount -= 1;
+            }
+        }
+
+        string htext = healthAmount.ToString();
+
+        healthText.text = "|Health: " + htext;
+
+
+        if (healthAmount <= 0) canMove = false;
         float fwd = 0;
         float side = Input.GetAxis("Horizontal");
         AnimatorUpdate(fwd, side, 1);
         PlayerMovement(fwd, side);
     }
+
+
+    
 }
 

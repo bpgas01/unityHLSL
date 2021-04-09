@@ -6,19 +6,15 @@ Shader "Cyber/PostProcessing/CRT"
     {
         //_MainTex("Texture", 2D) = "white" {}
 
-        // Hardness of scanline.
-        //  -8.0 = soft
-        // -16.0 = medium
+        
         hardScan("HardScan", Range(-8, -16)) = -8
-        // Hardness of pixels in scanline.
-        // -2.0 = soft
-        // -4.0 = hard
+        // Hardness of pixels in scanline
+        
         hardPix("HardPix", Range(-2, -4)) = -3
         maskDark("maskDark", Range(0, 2)) = 0.5
         maskLight("maskLight", Range(0, 2)) = 1.5
-        // Display warp.
-        // 0.0 = none
-        // 1.0/8.0 = extreme
+        // Display warp
+   
         warp("Warp", Vector) = (0.03125, 0.04166, 0, 0)
         // resolution scale
         resScale("ResolutionScale", Range(1, 16)) = 4

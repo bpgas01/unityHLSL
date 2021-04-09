@@ -77,16 +77,16 @@ Material:
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
-    - hardPix: -2.59
-    - hardScan: -8
-    - maskDark: 1.24
-    - maskLight: 1
-    - resScale: 3.01
+    - hardPix: -3.15
+    - hardScan: -12.27
+    - maskDark: 1.22
+    - maskLight: 2
+    - resScale: 4
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Direction: {r: 0, g: 1, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainColor: {r: 0, g: 0.67422724, b: 1, a: 1}
     - _RimColor: {r: 0.066082224, g: 0.9339623, b: 0.2999635, a: 1}
-    - warp: {r: 0.09, g: 0.3, b: 0.5, a: 0.5}
+    - warp: {r: 26.127857, g: -5.2255716, b: 0, a: 0}
   m_BuildTextureStacks: []
