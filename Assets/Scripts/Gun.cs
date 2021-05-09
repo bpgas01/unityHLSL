@@ -5,6 +5,7 @@ using TMPro;
 
 public class Gun : MonoBehaviour
 {
+    // Values for unity inspector
     [SerializeField] int Range;
     [SerializeField] TextMeshProUGUI AmmoText;
 
@@ -14,6 +15,7 @@ public class Gun : MonoBehaviour
     private List<GameObject> pooledBullets = new List<GameObject>();
     private List<GameObject> spawnedBullets = new List<GameObject>();
          
+    // Init bullet object pool
     private void Start()
     {
         for (int i = 0; i < AmmoAmount; i++)
@@ -31,6 +33,7 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Depcreatiated ammo text ( ammo is now "infinite")
         string text = AmmoAmount.ToString();
         AmmoText.text = "Ammo: " + text;
         if(AmmoAmount <= 0) { AmmoAmount = 0; }
@@ -39,10 +42,12 @@ public class Gun : MonoBehaviour
         {
             for (int i = 0; i < spawnedBullets.Count; i++)
             {
-             spawnedBullets[i].transform.position += transform.forward * Time.deltaTime * 25;
+                //Update bullet position
+                spawnedBullets[i].transform.position += transform.forward * Time.deltaTime * 25;
 
             }
-
+             // If bullet doesn't collide with an enemy, it continues to the despawn point, 
+             // where it is added back into the object pool
             if(spawnedBullets[0].transform.position.z <= despawnPoint.position.z)
             {
                 spawnedBullets[0].SetActive(false);
@@ -54,7 +59,7 @@ public class Gun : MonoBehaviour
 
     }
 
-
+    // spawn bullet from object pool
     public void Shoot() 
     {
         AmmoAmount -= 1;

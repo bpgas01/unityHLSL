@@ -9,6 +9,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    // Enemy Struct to store infomation
     #region Data Entry Struct 
     [System.Serializable]
     struct enemy
@@ -38,6 +39,7 @@ public class EnemyController : MonoBehaviour
 
     }
     #endregion
+    // Variables for inspector to modify spawn settings
     #region Inspector Settings
     [Header("Spawner Settings")]
     [SerializeField]
@@ -70,7 +72,8 @@ public class EnemyController : MonoBehaviour
     private Transform defaultPosition;
     private float timer = 0;
     // Start is called before the first frame update
-
+    
+    // Initilise settings
     void Start()
     {
       foreach (var enem in enemies)
@@ -100,6 +103,7 @@ public class EnemyController : MonoBehaviour
 
         if (timer >= coolDownTime)
         {
+            // spawn new enemy from object pool
             Enemy temp = pooled[0];
             temp.GetGameObject().SetActive(true);
             spawned.Add(temp);
@@ -113,6 +117,7 @@ public class EnemyController : MonoBehaviour
         {
             foreach (var a_object in spawned)
             {
+                // move spawned enemies
                 a_object.GetGameObject().transform.position += 
                     a_object.GetGameObject().transform.forward 
                     * Time.deltaTime * 15;
@@ -124,10 +129,12 @@ public class EnemyController : MonoBehaviour
 
             foreach(var col in colliders)
             {
+                // Check for despawn point
                 if (col.gameObject.CompareTag("EndPoint"))
                 {
                     #region Check Spawn Location
-
+                    // Remove from spawned list and return to object pool
+                    // Check Spawn location of each enemy
                     if (spawned[0].GetSpawnPos() == "left") spawned[0].GetGameObject().transform.position = left.position;
                     if(spawned[0].GetSpawnPos() == "right") spawned[0].GetGameObject().transform.position = right.position;
                     if (spawned[0].GetSpawnPos() == "up") spawned[0].GetGameObject().transform.position = up.position;
@@ -135,8 +142,7 @@ public class EnemyController : MonoBehaviour
 
                     #endregion
                     spawned[0].gameObject.SetActive(false);
-                    spawned.RemoveAt(0);
-
+                    spawned.RemoveAt(0); 
                 }
             }
         }

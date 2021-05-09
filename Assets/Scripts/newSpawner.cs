@@ -30,16 +30,19 @@ public class newSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         timer += 1 * Time.deltaTime;
         speedMultiplier += 0.5f * Time.deltaTime;
 
+        // Based on speed multiplier values, change spawn cooldown for enemies
         if (speedMultiplier >= 3) CoolDown = 2;
         if (speedMultiplier >= 4) CoolDown = 1.5f;
         if (speedMultiplier >= 5) CoolDown = 1f;
         if (speedMultiplier >= 6) CoolDown = 0.5f;
         if (speedMultiplier >= 10) { speedMultiplier = 10; }
-
+        // Log current  value
         Debug.Log(speedMultiplier);
+        // Spawn enemy from pool
         if(timer >= CoolDown)
         {
             GameObject temp = pooledObjects[0];
@@ -60,6 +63,7 @@ public class newSpawner : MonoBehaviour
                     * speed * speedMultiplier;
             }
 
+            // if at despawn point add back to pool
             if(spawnedObjects[0].transform.position.z >= despawnPoint.position.z)
             {
                 spawnedObjects[0].SetActive(false);

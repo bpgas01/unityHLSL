@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
     {
         if (canMove)
         {
-            
+            // if on the ground
             if (controller.isGrounded)
             {
                 Vector3 forward = transform.TransformDirection(Vector3.forward);
@@ -56,9 +56,6 @@ public class PlayerController : MonoBehaviour
                 float curSpeedx = movementSpeed * x;
                 float curSpeedy = movementSpeed * y;
                 movedirection = (forward * curSpeedx) + (right * curSpeedy);
-
-               
-
             }
             else
             {
@@ -80,11 +77,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Shoot gun if spacebar is pressed
         if (Input.GetButton("Jump"))
         {
             playerGun.Shoot();
 
         }
+        //  check for collision with an enemy 
         Collider[] cols = Physics.OverlapSphere(transform.position, 2);
 
         foreach (var col in cols)
@@ -94,20 +93,22 @@ public class PlayerController : MonoBehaviour
                 healthAmount -= 1;
             }
         }
-
+        
+        // Show health amount to UI
         string htext = healthAmount.ToString();
-
         healthText.text = "|Health: " + htext;
 
-
+        // If health reaches 0, stop movement from character and reload the menu screen
         if (healthAmount <= 0) {
             canMove = false;
             SceneManager.LoadSceneAsync(0);
         }
-        float fwd = 0;
+
+        // Get input for moving character
+        float fwd = 0; // Character doesn't need to move forward
         float side = Input.GetAxis("Horizontal");
-        AnimatorUpdate(fwd, side, 1);
-        PlayerMovement(fwd, side);
+        AnimatorUpdate(fwd, side, 1); // send movement input info to animator 
+        PlayerMovement(fwd, side); // Move player 
     }
 
 
