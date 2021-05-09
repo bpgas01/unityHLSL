@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CharacterController))]
 
@@ -99,7 +100,10 @@ public class PlayerController : MonoBehaviour
         healthText.text = "|Health: " + htext;
 
 
-        if (healthAmount <= 0) canMove = false;
+        if (healthAmount <= 0) {
+            canMove = false;
+            SceneManager.LoadSceneAsync(0);
+        }
         float fwd = 0;
         float side = Input.GetAxis("Horizontal");
         AnimatorUpdate(fwd, side, 1);
